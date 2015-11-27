@@ -4,12 +4,17 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +23,13 @@ import java.util.Map;
  */
 @Path("publications")
 public class PublicationResource {
+
+    protected Connection getConnection() throws SQLException, NamingException {
+        InitialContext ic = new InitialContext();
+        DataSource ds = (DataSource) ic.lookup("jdbc/mssqlDS");
+        return ds.getConnection();
+    }
+
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.
@@ -26,7 +38,10 @@ public class PublicationResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get() {
+    public Response get() throws SQLException, NamingException {
+
+        Connection db = getConnection();
+
         final Map<Integer, String> publications = new HashMap<>();
         publications.put(1, "Design Patterns");
         publications.put(2, "Java for Dummies");

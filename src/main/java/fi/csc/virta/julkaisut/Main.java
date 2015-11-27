@@ -41,8 +41,6 @@ public class Main {
         Context context = tomcat.addWebapp("/", new File(
                 webappDirLocation).getAbsolutePath());
 
-        context.getNamingResources().addResource(dataSourceResource());
-
         // Add servlet that will register Jersey REST resources
         Tomcat.addServlet(context, "jersey-servlet", resourceConfig());
         context.addServletMapping("/*", "jersey-servlet");
@@ -51,23 +49,6 @@ public class Main {
         tomcat.getServer().await();
 
         return tomcat;
-    }
-
-    /**
-     * Defining DataSource programmatically
-     *
-     * @return
-     */
-    private static ContextResource dataSourceResource() {
-        ContextResource resource = new ContextResource();
-        resource.setName("jdbc/mssqlDS");
-        resource.setType(DataSource.class.getName());
-        resource.setProperty("driverClassName",
-                "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        resource.setProperty("url", "jdbc:sqlserver://<ip>/<db>");
-        resource.setProperty("username", "<username>");
-        resource.setProperty("password", "<password>");
-        return resource;
     }
 
     private static ServletContainer resourceConfig() {

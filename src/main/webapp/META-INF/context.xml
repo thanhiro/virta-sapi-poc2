@@ -1,0 +1,13 @@
+<Context>
+    <Resource name="jdbc/mssqlDS" auth="Container"
+              factory="com.zaxxer.hikari.HikariJNDIFactory"
+              type="javax.sql.DataSource"
+              minimumIdle="5"
+              maximumPoolSize="10"
+              connectionTimeout="300000"
+              dataSourceClassName="com.microsoft.sqlserver.jdbc.SQLServerDataSource"
+              dataSource.serverName="<ip>"
+              dataSource.databaseName="<db>"
+              dataSource.user="<username>"
+              dataSource.password="<password>" />
+</Context>
