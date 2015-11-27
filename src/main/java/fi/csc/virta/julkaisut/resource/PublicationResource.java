@@ -26,7 +26,7 @@ public class PublicationResource {
 
     protected Connection getConnection() throws SQLException, NamingException {
         InitialContext ic = new InitialContext();
-        DataSource ds = (DataSource) ic.lookup("jdbc/mssqlDS");
+        DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/mssqlDS");
         return ds.getConnection();
     }
 
@@ -39,7 +39,6 @@ public class PublicationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get() throws SQLException, NamingException {
-
         Connection db = getConnection();
 
         final Map<Integer, String> publications = new HashMap<>();
